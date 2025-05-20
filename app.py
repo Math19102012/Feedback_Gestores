@@ -30,16 +30,7 @@ df_long['Nota'] = df_long['Nota'].astype(str)
 # Filtro lateral
 curso_sel = st.sidebar.selectbox("Selecione o curso:", sorted(df_validos['Curso (Matricula Atual) (Matricula)'].unique()))
 
-# Gráfico 1 - Distribuição por curso
-st.subheader("Distribuição de Alunos por Curso")
-fig1, ax1 = plt.subplots(figsize=(10, 4))
-sns.countplot(data=df_validos, y='Curso (Matricula Atual) (Matricula)', order=df_validos['Curso (Matricula Atual) (Matricula)'].value_counts().index, ax=ax1)
-ax1.set_title("Distribuição de Alunos por Curso")
-ax1.set_xlabel("Total de Alunos")
-ax1.set_ylabel("Curso")
-st.pyplot(fig1)
-
-# Gráfico 2 - Avaliação por competência
+# Gráfico 1 - Avaliação por competência
 df_filtrado = df_long[df_long['Curso (Matricula Atual) (Matricula)'] == curso_sel]
 df_agrupado = df_filtrado.groupby(['Competência', 'Nota']).size().reset_index(name='Total')
 df_pivot = df_agrupado.pivot(index='Competência', columns='Nota', values='Total').fillna(0)
